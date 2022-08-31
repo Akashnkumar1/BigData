@@ -1,0 +1,22 @@
+Install:
+pip install apache-airflow  ## Install Airflow
+
+Run:
+
+python -m venv env_airflow  ## Create Virtual Env
+
+
+env_airflow\Scripts\activate  ## activate the airflow
+
+
+pip install --upgrade pip  ## Make sure your pip line is updated
+
+
+pip install apache-airflow  ## Make sure airflow installed in Virtualenv and not affect any python module preinstalled
+
+
+airflow initdb ## Initialize the Database
+
+
+
+

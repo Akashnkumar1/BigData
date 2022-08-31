@@ -1,0 +1,71 @@
+def update_logs(args=None):
+
+    # If no entry is passed, create new log file
+    if not args:
+
+        log_file = './log'+now_str+'.json'
+
+        if not os.path.exists(log_file):
+            # Create file with JSON enclosures
+            with open(log_file, 'w') as f:
+                json.dump([], f)
+
+    else:
+        # A new entry is passed, update existing log file
+        write_logs(*args)
+
+
+def write_logs(time, date, name, accuracy, direction):
+
+    entry = {'time': time,
+             'name': name,
+             'accuracy': accuracy,
+             'direction': direction}
+
+    log_file = './log'+now_str+'.json'
+
+    if not os.path.exists(log_file):
+        # Create file with JSON enclosures
+        with open(log_file, 'w') as f:
+            json.dump([], f)
+
+    # The file already exists, load and update it
+    with open(log_file, 'r') as r:
+        data = json.load(r)
+
+    data.append(entry)
+
+    # Write out updated data
+    with open(log_file, 'w') as f:
+        json.dump(data, f, indent=3)
+
+    return [entry]
+
+# Example records
+entries = [("18/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default'),
+           ("18/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default'),
+           ("13/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default'),
+           ("13/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default'),
+           ("13/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default'),
+           ("13/06/2018 - 20:39:07", 'whatever', "Rajkiran", "97.22941", 'default')]
+
+
+# Case 1: Log file already exists, update it
+now = datetime.strftime(datetime.now(), '%Y%m%d')
+now_str = str(now)
+
+for entry in entries:
+    update_logs(entry)
+
+# Case 2: Midnight, no entries, create a new empty log file
+now = datetime.strftime(datetime.now() + timedelta(days=1), '%Y%m%d')
+now_str = str(now)
+
+update_logs()
+
+# Case 3: Midnight, with entries to write
+now = datetime.strftime(datetime.now() + timedelta(days=1), '%Y%m%d')
+now_str = str(now)
+
+for entry in entries:
+    update_logs(entry)
